@@ -1,12 +1,14 @@
 use crate::PausableSystems;
 use bevy::prelude::*;
+use bevy_pkv::prelude::*;
+use serde::{Deserialize, Serialize};
 
 pub(super) fn plugin(app: &mut App) {
     app.add_systems(Update, observe_coin.in_set(PausableSystems))
-        .init_resource::<CoinCounter>();
+        .init_persistent_resource::<CoinCounter>();
 }
 
-#[derive(Resource, Default)]
+#[derive(Resource, Default, Serialize, Deserialize)]
 pub(crate) struct CoinCounter {
     pub(crate) last_was_heads: bool,
     pub(crate) streak: u32,

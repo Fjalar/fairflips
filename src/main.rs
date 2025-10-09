@@ -13,6 +13,7 @@ mod screens;
 mod theme;
 
 use bevy::{asset::AssetMetaCheck, prelude::*, window::WindowResolution};
+use bevy_pkv::prelude::*;
 
 fn main() -> AppExit {
     App::new().add_plugins(AppPlugin).run()
@@ -44,6 +45,9 @@ impl Plugin for AppPlugin {
                     ..default()
                 }),
         );
+
+        // Add resource for persistent saves and settings. Important this comes before any plugins using persistent resources
+        app.insert_resource(PkvStore::new("FjalarGame", "FairFlips"));
 
         // Add other plugins.
         app.add_plugins((
