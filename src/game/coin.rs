@@ -1,6 +1,29 @@
 use bevy::prelude::*;
+use rand::seq::IndexedRandom;
 
-use crate::game::{animation::AnimationTimer, gameplay_assets::GameplayAssets};
+use crate::{
+    audio::sound_effect,
+    game::{animation::AnimationTimer, gameplay_assets::GameplayAssets, input::Flip},
+};
+
+pub fn plugin(app: &mut App) {
+    app.add_observer(
+        |_flip: On<Flip>,
+         coin_query: Single<(&mut Coin, &mut AnimationTimer)>,
+         mut commands: Commands,
+         player_assets: Res<GameplayAssets>| {
+            let (mut coin, mut timer) = coin_query.into_inner();
+
+            if !coin.currently_flipping {
+                let rng = &mut rand::rng();
+                let random_step = player_assets.steps.choose(rng).unwrap().clone();
+                commands.spawn(sound_effect(random_step));
+                coin.currently_flipping = true;
+                timer.0.unpause();
+            }
+        },
+    );
+}
 
 pub fn coin(
     gameplay_assets: &GameplayAssets,

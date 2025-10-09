@@ -6,61 +6,17 @@
 
 use std::f32::consts::PI;
 
-use bevy::{
-    input::{ButtonState, keyboard::KeyboardInput},
-    prelude::*,
-};
+use bevy::prelude::*;
 use rand::prelude::*;
 
 use crate::{
-    AppSystems, PausableSystems,
-    audio::sound_effect,
-    game::{coin::Coin, counters::CoinCounter, gameplay_assets::GameplayAssets, hand::Hand},
+    PausableSystems,
+    game::{coin::Coin, counters::CoinCounter},
 };
 
 pub(super) fn plugin(app: &mut App) {
     // Animate and play sound effects based on controls.
-    app.add_systems(
-        Update,
-        (
-            keyboard_input
-                .in_set(AppSystems::RecordInput)
-                .in_set(PausableSystems),
-            animate_coin.in_set(PausableSystems),
-        ),
-    );
-}
-
-fn keyboard_input(
-    mut keyboard_messages: MessageReader<KeyboardInput>,
-    mut hand_sprite: Single<&mut Sprite, With<Hand>>,
-    coin_query: Single<(&mut Coin, &mut AnimationTimer)>,
-    mut commands: Commands,
-    player_assets: Res<GameplayAssets>,
-) {
-    let (mut coin, mut timer) = coin_query.into_inner();
-
-    for message in keyboard_messages.read() {
-        if message.key_code == KeyCode::Space {
-            let Some(atlas) = hand_sprite.texture_atlas.as_mut() else {
-                continue;
-            };
-
-            if message.state == ButtonState::Pressed && !message.repeat {
-                atlas.index = 1;
-
-                if !coin.currently_flipping {
-                    let rng = &mut rand::rng();
-                    let random_step = player_assets.steps.choose(rng).unwrap().clone();
-                    commands.spawn(sound_effect(random_step));
-                    coin.currently_flipping = true;
-                    timer.0.unpause();
-                }
-            } else if message.state == ButtonState::Released {
-                atlas.index = 0;
-            };
-        }
-    }
+    app.add_systems(Update, (animate_coin.in_set(PausableSystems),));
 }
 
 fn animate_coin(
