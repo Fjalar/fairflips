@@ -17,7 +17,9 @@ pub struct GameplayAssets {
     #[dependency]
     pub coin_image: Handle<Image>,
     #[dependency]
-    pub steps: Vec<Handle<AudioSource>>,
+    pub flips: Vec<Handle<AudioSource>>,
+    #[dependency]
+    pub heads: Handle<AudioSource>,
 }
 
 impl FromWorld for GameplayAssets {
@@ -38,12 +40,13 @@ impl FromWorld for GameplayAssets {
                     settings.sampler = ImageSampler::nearest();
                 },
             ),
-            steps: vec![
+            flips: vec![
                 assets.load("audio/sound_effects/step1.ogg"),
                 assets.load("audio/sound_effects/step2.ogg"),
                 assets.load("audio/sound_effects/step3.ogg"),
                 assets.load("audio/sound_effects/step4.ogg"),
             ],
+            heads: assets.load("audio/sound_effects/heads.ogg"),
         }
     }
 }

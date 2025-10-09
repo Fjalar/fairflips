@@ -3,7 +3,7 @@ use bevy::prelude::*;
 use crate::game::gameplay_assets::GameplayAssets;
 
 pub fn hand(
-    player_assets: &GameplayAssets,
+    gameplay_assets: &GameplayAssets,
     texture_atlas_layouts: &mut Assets<TextureAtlasLayout>,
 ) -> impl Bundle {
     // A texture atlas is a way to split a single image into a grid of related images.
@@ -15,7 +15,7 @@ pub fn hand(
         Name::new("Hand"),
         Hand,
         Sprite::from_atlas_image(
-            player_assets.hand_image.clone(),
+            gameplay_assets.hand_image.clone(),
             TextureAtlas {
                 layout: texture_atlas_layout,
                 index: 0,

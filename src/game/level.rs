@@ -15,7 +15,7 @@ use crate::{
 /// A system that spawns the main level.
 pub fn spawn_level(
     mut commands: Commands,
-    player_assets: Res<GameplayAssets>,
+    gameplay_assets: Res<GameplayAssets>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     counter: Res<CoinCounter>,
 ) {
@@ -26,8 +26,8 @@ pub fn spawn_level(
         DespawnOnExit(Screen::Gameplay),
         children![
             counter_ui(counter),
-            hand::hand(&player_assets, &mut texture_atlas_layouts),
-            coin::coin(&player_assets, &mut texture_atlas_layouts),
+            hand::hand(&gameplay_assets, &mut texture_atlas_layouts),
+            coin::coin(&gameplay_assets, &mut texture_atlas_layouts),
         ],
     ));
 }
