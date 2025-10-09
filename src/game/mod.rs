@@ -6,10 +6,12 @@
 use bevy::prelude::*;
 
 mod animation;
+mod coin;
 mod counters;
+mod gameplay_assets;
+mod hand;
 pub mod level;
-pub mod player;
 
 pub(super) fn plugin(app: &mut App) {
-    app.add_plugins((animation::plugin, counters::plugin, player::plugin));
+    app.add_plugins((animation::plugin, counters::plugin, gameplay_assets::plugin));
 }

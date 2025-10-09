@@ -3,9 +3,11 @@
 use bevy::prelude::*;
 
 use crate::{
-    demo::{
+    game::{
+        coin,
         counters::{CoinCounter, counter_ui},
-        player::{PlayerAssets, coin, hand},
+        gameplay_assets::GameplayAssets,
+        hand,
     },
     screens::Screen,
 };
@@ -13,7 +15,7 @@ use crate::{
 /// A system that spawns the main level.
 pub fn spawn_level(
     mut commands: Commands,
-    player_assets: Res<PlayerAssets>,
+    player_assets: Res<GameplayAssets>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     counter: Res<CoinCounter>,
 ) {
@@ -24,8 +26,8 @@ pub fn spawn_level(
         DespawnOnExit(Screen::Gameplay),
         children![
             counter_ui(counter),
-            hand(&player_assets, &mut texture_atlas_layouts),
-            coin(&player_assets, &mut texture_atlas_layouts),
+            hand::hand(&player_assets, &mut texture_atlas_layouts),
+            coin::coin(&player_assets, &mut texture_atlas_layouts),
         ],
     ));
 }

@@ -15,10 +15,7 @@ use rand::prelude::*;
 use crate::{
     AppSystems, PausableSystems,
     audio::sound_effect,
-    demo::{
-        counters::CoinCounter,
-        player::{AnimationTimer, Coin, Hand, PlayerAssets},
-    },
+    game::{coin::Coin, counters::CoinCounter, gameplay_assets::GameplayAssets, hand::Hand},
 };
 
 pub(super) fn plugin(app: &mut App) {
@@ -39,7 +36,7 @@ fn keyboard_input(
     mut hand_sprite: Single<&mut Sprite, With<Hand>>,
     coin_query: Single<(&mut Coin, &mut AnimationTimer)>,
     mut commands: Commands,
-    player_assets: Res<PlayerAssets>,
+    player_assets: Res<GameplayAssets>,
 ) {
     let (mut coin, mut timer) = coin_query.into_inner();
 
@@ -111,3 +108,6 @@ fn animate_coin(
         }
     }
 }
+
+#[derive(Component, Deref, DerefMut)]
+pub(crate) struct AnimationTimer(pub(crate) Timer);
