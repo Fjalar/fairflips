@@ -1,7 +1,8 @@
 use std::f32::consts::PI;
 
 use bevy::prelude::*;
-use rand::{Rng, seq::IndexedRandom};
+use rand::{Rng, SeedableRng, seq::IndexedRandom};
+use rand_chacha::ChaCha8Rng;
 
 use crate::{
     PausableSystems,
@@ -26,8 +27,13 @@ pub fn plugin(app: &mut App) {
             }
         },
     )
-    .add_systems(Update, (update_coin.in_set(PausableSystems),));
+    .add_systems(Update, (update_coin.in_set(PausableSystems),))
+    .insert_resource(RandomSource(ChaCha8Rng::from_os_rng()));
 }
+
+/// The source of randomness used by this example.
+#[derive(Resource, Deref, DerefMut)]
+struct RandomSource(ChaCha8Rng);
 
 pub fn coin(
     gameplay_assets: &GameplayAssets,
@@ -71,6 +77,7 @@ fn update_coin(
     time: Res<Time>,
     mut commands: Commands,
     gameplay_assets: Res<GameplayAssets>,
+    mut rng: ResMut<RandomSource>,
     mut counters: ResMut<CoinCounter>,
 ) {
     let (mut sprite, mut transform, mut coin, mut timer) = coin_query.into_inner();
@@ -85,7 +92,6 @@ fn update_coin(
         .with_rotation(Quat::from_rotation_x(2.0 * PI * timer.0.elapsed_secs()));
 
     if coin.currently_flipping {
-        let rng = &mut rand::rng();
         let Some(atlas) = sprite.texture_atlas.as_mut() else {
             return;
         };

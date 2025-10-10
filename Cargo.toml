@@ -8,6 +8,7 @@ edition = "2024"
 bevy = { version = "0.17" }
 bevy_pkv = "0.14.0"
 rand = "0.9"
+rand_chacha = "0.9.0"
 serde = "1.0.228"
 # Compile out low-severity logs to improve performance.
 # Remove these features if you want to profile your game with tracy.
