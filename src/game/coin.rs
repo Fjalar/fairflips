@@ -7,7 +7,7 @@ use rand_chacha::ChaCha8Rng;
 use crate::{
     PausableSystems,
     audio::sound_effect,
-    game::{counters::CoinCounter, gameplay_assets::GameplayAssets, input::Flip},
+    game::{counters::CoinCounter, gameplay_assets::GameplayAssets, input::Flip, popup::popup},
 };
 
 pub fn plugin(app: &mut App) {
@@ -106,6 +106,7 @@ fn update_coin(
                 counters.last_was_heads = true;
                 atlas.index = 0;
                 commands.spawn(sound_effect(gameplay_assets.heads.clone()));
+                commands.spawn(popup(format!("{}", counters.streak)));
             } else {
                 counters.streak = 0;
                 counters.last_was_heads = false;
@@ -122,4 +123,4 @@ fn update_coin(
 }
 
 #[derive(Component, Deref, DerefMut)]
-pub(crate) struct AnimationTimer(pub(crate) Timer);
+pub struct AnimationTimer(pub Timer);

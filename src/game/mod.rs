@@ -11,6 +11,7 @@ mod gameplay_assets;
 mod hand;
 mod input;
 pub mod level;
+mod popup;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_plugins((
@@ -18,5 +19,6 @@ pub(super) fn plugin(app: &mut App) {
         gameplay_assets::plugin,
         input::plugin,
         coin::plugin,
+        popup::plugin,
     ));
 }
