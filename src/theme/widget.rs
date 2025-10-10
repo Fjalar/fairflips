@@ -81,6 +81,29 @@ where
     )
 }
 
+/// A large rounded button with text and an action defined as an [`Observer`].
+pub fn button_red<E, B, M, I>(text: impl Into<String>, action: I) -> impl Bundle
+where
+    E: EntityEvent,
+    B: Bundle,
+    I: IntoObserverSystem<E, B, M>,
+{
+    button_base_red(
+        text,
+        action,
+        (
+            Node {
+                width: px(380),
+                height: px(80),
+                align_items: AlignItems::Center,
+                justify_content: JustifyContent::Center,
+                ..default()
+            },
+            BorderRadius::MAX,
+        ),
+    )
+}
+
 /// A small square button with text and an action defined as an [`Observer`].
 pub fn button_small<E, B, M, I>(text: impl Into<String>, action: I) -> impl Bundle
 where
@@ -127,6 +150,48 @@ where
                         none: BUTTON_BACKGROUND,
                         hovered: BUTTON_HOVERED_BACKGROUND,
                         pressed: BUTTON_PRESSED_BACKGROUND,
+                    },
+                    children![(
+                        Name::new("Button Text"),
+                        Text(text),
+                        TextFont::from_font_size(40.0),
+                        TextColor(BUTTON_TEXT),
+                        // Don't bubble picking events from the text up to the button.
+                        Pickable::IGNORE,
+                    )],
+                ))
+                .insert(button_bundle)
+                .observe(action);
+        })),
+    )
+}
+
+/// A simple button with text and an action defined as an [`Observer`], but red. The button's layout is provided by `button_bundle`.
+fn button_base_red<E, B, M, I>(
+    text: impl Into<String>,
+    action: I,
+    button_bundle: impl Bundle,
+) -> impl Bundle
+where
+    E: EntityEvent,
+    B: Bundle,
+    I: IntoObserverSystem<E, B, M>,
+{
+    let text = text.into();
+    let action = IntoObserverSystem::into_system(action);
+    (
+        Name::new("Button"),
+        Node::default(),
+        Children::spawn(SpawnWith(|parent: &mut ChildSpawner| {
+            parent
+                .spawn((
+                    Name::new("Button Inner"),
+                    Button,
+                    BackgroundColor(BUTTON_BACKGROUND_RED),
+                    InteractionPalette {
+                        none: BUTTON_BACKGROUND_RED,
+                        hovered: BUTTON_HOVERED_BACKGROUND_RED,
+                        pressed: BUTTON_PRESSED_BACKGROUND_RED,
                     },
                     children![(
                         Name::new("Button Text"),

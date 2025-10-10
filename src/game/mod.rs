@@ -6,7 +6,7 @@
 use bevy::prelude::*;
 
 mod coin;
-mod counters;
+pub mod counters;
 mod gameplay_assets;
 mod hand;
 mod input;

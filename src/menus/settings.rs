@@ -4,7 +4,7 @@
 
 use bevy::{audio::Volume, input::common_conditions::input_just_pressed, prelude::*};
 
-use crate::{menus::Menu, screens::Screen, theme::prelude::*};
+use crate::{game::counters::CoinCounter, menus::Menu, screens::Screen, theme::prelude::*};
 
 pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Menu::Settings), spawn_settings_menu);
@@ -40,6 +40,7 @@ fn settings_grid() -> impl Bundle {
             row_gap: px(10),
             column_gap: px(30),
             grid_template_columns: RepeatedGridTrack::px(2, 400.0),
+            grid_template_rows: RepeatedGridTrack::px(2, 100.0),
             ..default()
         },
         children![
@@ -51,6 +52,7 @@ fn settings_grid() -> impl Bundle {
                 }
             ),
             global_volume_widget(),
+            reset_progress_widget(),
         ],
     )
 }
@@ -101,6 +103,22 @@ fn update_global_volume_label(
 ) {
     let percent = 100.0 * global_volume.volume.to_linear();
     label.0 = format!("{percent:3.0}%");
+}
+
+fn reset_progress_widget() -> impl Bundle {
+    (
+        Name::new("Reset Progress Widget"),
+        Node {
+            justify_content: JustifyContent::Center,
+            grid_column: GridPlacement::span(3),
+            ..default()
+        },
+        children![(widget::button_red("Reset Progress", reset_progress),),],
+    )
+}
+
+fn reset_progress(_: On<Pointer<Click>>, mut counter: ResMut<CoinCounter>) {
+    *counter = CoinCounter::default();
 }
 
 fn go_back_on_click(

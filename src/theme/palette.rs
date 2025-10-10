@@ -14,3 +14,9 @@ pub const BUTTON_BACKGROUND: Color = Color::srgb(0.275, 0.400, 0.750);
 pub const BUTTON_HOVERED_BACKGROUND: Color = Color::srgb(0.384, 0.600, 0.820);
 /// #3d4999
 pub const BUTTON_PRESSED_BACKGROUND: Color = Color::srgb(0.239, 0.286, 0.600);
+
+pub const BUTTON_BACKGROUND_RED: Color = Color::srgb(0.850, 0.400, 0.275);
+
+pub const BUTTON_HOVERED_BACKGROUND_RED: Color = Color::srgb(0.920, 0.600, 0.384);
+
+pub const BUTTON_PRESSED_BACKGROUND_RED: Color = Color::srgb(0.700, 0.286, 0.239);

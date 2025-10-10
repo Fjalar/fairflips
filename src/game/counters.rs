@@ -12,10 +12,10 @@ pub(super) fn plugin(app: &mut App) {
 }
 
 #[derive(Resource, Default, Serialize, Deserialize)]
-pub(crate) struct CoinCounter {
-    pub(crate) last_was_heads: bool,
-    pub(crate) streak: u32,
-    pub(crate) highest_streak: u32,
+pub struct CoinCounter {
+    pub last_was_heads: bool,
+    pub streak: u32,
+    pub highest_streak: u32,
 }
 
 fn observe_coin(
