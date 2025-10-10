@@ -1,5 +1,8 @@
-use crate::PausableSystems;
-use bevy::prelude::*;
+use crate::{
+    PausableSystems,
+    game::level::{HighScoreUi, StreakUi},
+};
+use bevy::{color::palettes::css::YELLOW, prelude::*};
 use bevy_pkv::prelude::*;
 use serde::{Deserialize, Serialize};
 
@@ -15,30 +18,36 @@ pub(crate) struct CoinCounter {
     pub(crate) highest_streak: u32,
 }
 
-#[derive(Component)]
-struct CounterUi;
-
-pub(crate) fn counter_ui(counter: Res<CoinCounter>) -> impl Bundle {
-    (
-        CounterUi,
-        GlobalZIndex(2),
-        Text2d::new(format!(
-            "High Score: {}\nStreak: {}",
-            counter.highest_streak, counter.streak
-        )),
-        Transform::from_translation(Vec3::new(0.0, 200.0, 0.0)),
-    )
-}
-
 fn observe_coin(
     mut commands: Commands,
-    query: Single<Entity, With<CounterUi>>,
+    highscore: Single<Entity, With<HighScoreUi>>,
+    streak: Single<Entity, With<StreakUi>>,
     counter: Res<CoinCounter>,
 ) {
     if counter.is_changed() {
-        commands.entity(query.entity()).insert(Text2d::new(format!(
-            "High Score: {}\nStreak: {}",
-            counter.highest_streak, counter.streak
-        )));
+        let mut highscore_entity = commands.entity(highscore.entity());
+
+        highscore_entity.insert(Text::new(
+            format!("High Score: {}", counter.highest_streak,),
+        ));
+
+        if counter.highest_streak == counter.streak {
+            highscore_entity.insert(TextColor(YELLOW.into()));
+            // highscore_entity.insert(TextShadow::default());
+        } else {
+            highscore_entity.insert(TextColor::WHITE);
+            // highscore_entity.remove::<TextShadow>();
+        }
+
+        let mut streak_entity = commands.entity(streak.entity());
+        if counter.streak > 0 {
+            streak_entity.insert(TextColor(YELLOW.into()));
+            // streak_entity.insert(TextShadow::default());
+        } else {
+            streak_entity.insert(TextColor::WHITE);
+            // streak_entity.remove::<TextShadow>();
+        }
+
+        streak_entity.insert(Text::new(format!("Streak: {}", counter.streak,)));
     }
 }

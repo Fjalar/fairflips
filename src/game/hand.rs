@@ -21,8 +21,8 @@ pub fn hand(
                 index: 0,
             },
         ),
-        Transform::from_scale(Vec2::splat(4.0).extend(1.0))
-            .with_translation(Vec3::new(20.0, -175.0, 0.0))
+        Transform::from_scale(Vec2::splat(8.0).extend(1.0))
+            .with_translation(Vec3::new(20.0, -250.0, 0.0))
             .with_rotation(Quat::from_rotation_z(0.1)),
     )
 }

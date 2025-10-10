@@ -37,7 +37,7 @@ impl Plugin for AppPlugin {
                     primary_window: Window {
                         title: "Fair Flips".to_string(),
                         fit_canvas_to_parent: true,
-                        resolution: WindowResolution::new(240, 480),
+                        resolution: WindowResolution::new(480, 960),
                         resizable: false,
                         ..default()
                     }

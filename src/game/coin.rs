@@ -56,7 +56,7 @@ pub fn coin(
                 index: 0,
             },
         ),
-        Transform::from_scale(Vec2::splat(1.0).extend(1.0)),
+        Transform::from_scale(Vec2::splat(1.5).extend(1.0)),
     )
 }
 
@@ -79,7 +79,7 @@ fn update_coin(
     *transform = transform
         .with_translation(Vec3::new(
             0.0,
-            50.0 - 350.0 * f32::abs(timer.0.elapsed_secs() - 0.5),
+            200.0 - 700.0 * f32::abs(timer.0.elapsed_secs() - 0.5),
             1.0,
         ))
         .with_rotation(Quat::from_rotation_x(2.0 * PI * timer.0.elapsed_secs()));

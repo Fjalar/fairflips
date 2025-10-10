@@ -33,7 +33,7 @@ pub fn header(text: impl Into<String>) -> impl Bundle {
     (
         Name::new("Header"),
         Text(text.into()),
-        TextFont::from_font_size(20.0),
+        TextFont::from_font_size(40.0),
         TextColor(HEADER_TEXT),
     )
 }
@@ -43,7 +43,7 @@ pub fn label(text: impl Into<String>) -> impl Bundle {
     (
         Name::new("Label"),
         Text(text.into()),
-        TextFont::from_font_size(12.0),
+        TextFont::from_font_size(24.0),
         TextColor(LABEL_TEXT),
     )
 }
@@ -53,7 +53,7 @@ pub fn label_small(text: impl Into<String>) -> impl Bundle {
     (
         Name::new("Label"),
         Text(text.into()),
-        TextFont::from_font_size(8.0),
+        TextFont::from_font_size(18.0),
         TextColor(LABEL_TEXT),
     )
 }
@@ -70,8 +70,8 @@ where
         action,
         (
             Node {
-                width: px(180),
-                height: px(40),
+                width: px(380),
+                height: px(80),
                 align_items: AlignItems::Center,
                 justify_content: JustifyContent::Center,
                 ..default()
@@ -92,8 +92,8 @@ where
         text,
         action,
         Node {
-            width: px(10),
-            height: px(10),
+            width: px(30),
+            height: px(30),
             align_items: AlignItems::Center,
             justify_content: JustifyContent::Center,
             ..default()
@@ -131,7 +131,7 @@ where
                     children![(
                         Name::new("Button Text"),
                         Text(text),
-                        TextFont::from_font_size(20.0),
+                        TextFont::from_font_size(40.0),
                         TextColor(BUTTON_TEXT),
                         // Don't bubble picking events from the text up to the button.
                         Pickable::IGNORE,

@@ -44,7 +44,7 @@ fn thanks() -> impl Bundle {
     grid(vec![
         ["Unfair Flips\non steam", "The concept"],
         [
-            "Ryan \"Gary\" Letourneau\nAKA Northern",
+            "Ryan \"Gary\"\nLetourneau\nAKA Northern",
             "Linking and building\nthis summer",
         ],
     ])
