@@ -4,6 +4,7 @@ use bevy::{color::palettes::css::BLACK, prelude::*};
 
 use crate::{
     game::{coin, counters::CoinCounter, gameplay_assets::GameplayAssets, hand},
+    menus::settings::ChosenCoin,
     screens::Screen,
 };
 
@@ -13,6 +14,7 @@ pub fn spawn_level(
     gameplay_assets: Res<GameplayAssets>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     counter: Res<CoinCounter>,
+    chosen_coin: Res<ChosenCoin>,
 ) {
     commands.spawn((
         Name::new("Level"),
@@ -27,7 +29,7 @@ pub fn spawn_level(
         },
         children![
             hand::hand(&gameplay_assets, &mut texture_atlas_layouts),
-            coin::coin(&gameplay_assets, &mut texture_atlas_layouts),
+            coin::coin(&gameplay_assets, &mut texture_atlas_layouts, chosen_coin),
             (
                 Node::default(),
                 children![(

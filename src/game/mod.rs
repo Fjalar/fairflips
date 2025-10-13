@@ -5,9 +5,9 @@
 
 use bevy::prelude::*;
 
-mod coin;
+pub mod coin;
 pub mod counters;
-mod gameplay_assets;
+pub mod gameplay_assets;
 mod hand;
 mod input;
 pub mod level;

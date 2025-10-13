@@ -3,7 +3,7 @@
 mod credits;
 mod main;
 mod pause;
-mod settings;
+pub mod settings;
 
 use bevy::prelude::*;
 

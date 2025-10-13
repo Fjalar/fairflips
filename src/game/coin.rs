@@ -8,6 +8,7 @@ use crate::{
     PausableSystems,
     audio::sound_effect,
     game::{counters::CoinCounter, gameplay_assets::GameplayAssets, input::Flip, popup::popup},
+    menus::settings::ChosenCoin,
 };
 
 pub fn plugin(app: &mut App) {
@@ -38,6 +39,7 @@ struct RandomSource(ChaCha8Rng);
 pub fn coin(
     gameplay_assets: &GameplayAssets,
     texture_atlas_layouts: &mut Assets<TextureAtlasLayout>,
+    chosen_coin: Res<ChosenCoin>,
 ) -> impl Bundle {
     // A texture atlas is a way to split a single image into a grid of related images.
     // You can learn more in this example: https://github.com/bevyengine/bevy/blob/latest/examples/2d/texture_atlas.rs
@@ -56,7 +58,7 @@ pub fn coin(
         },
         AnimationTimer(timer),
         Sprite::from_atlas_image(
-            gameplay_assets.coin_image.clone(),
+            gameplay_assets.coins[chosen_coin.0].clone(),
             TextureAtlas {
                 layout: texture_atlas_layout,
                 index: 0,
@@ -68,7 +70,7 @@ pub fn coin(
 
 #[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Default, Reflect)]
 #[reflect(Component)]
-pub(crate) struct Coin {
+pub struct Coin {
     pub(crate) currently_flipping: bool,
 }
 
